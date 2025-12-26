@@ -2,12 +2,12 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Oyun Example</title>
+<title>Oyun ve Kalp</title>
 <style>
   body {
     background: #111;
     color: white;
-    font-family: monospace; /* Monospace ile kalp simetrik olacak */
+    font-family: monospace;
     text-align: center;
     padding-top: 20px;
   }
@@ -22,13 +22,21 @@
     white-space: pre;
   }
   #heart {
-    color: pink;
-    font-weight: bold;
-    white-space: pre;
     display: none;
     margin-top: 20px;
+    color: pink;
+    font-weight: bold;
     line-height: 1.1;
     font-size: 16px;
+  }
+  .heart-line {
+    display: flex;
+    justify-content: center;
+  }
+  .heart-line span {
+    display: inline-block;
+    width: 40px; /* her “doga” için sabit genişlik */
+    text-align: center;
   }
 </style>
 </head>
@@ -43,55 +51,53 @@
 <h2 id="hp"></h2>
 <div class="log" id="log"></div>
 
-<!-- Kalp ASCII burada -->
-<pre id="heart"></pre>
+<!-- Kalp divleri -->
+<div id="heart">
+  <div class="heart-line"><span>doga</span><span>doga</span><span>doga</span><span>doga</span><span>doga</span></div>
+  <div class="heart-line"><span>doga</span><span>doga</span><span>doga</span><span>doga</span><span>doga</span><span>doga</span><span>doga</span></div>
+  <div class="heart-line"><span>doga</span>                                         <span>doga</span></div>
+  <div class="heart-line"><span>doga</span>                                         <span>doga</span></div>
+  <div class="heart-line"><span>doga</span>                                     <span>doga</span></div>
+  <div class="heart-line"><span>doga</span>                                 <span>doga</span></div>
+  <div class="heart-line"><span>doga</span>                             <span>doga</span></div>
+  <div class="heart-line"><span>doga</span>                         <span>doga</span></div>
+  <div class="heart-line"><span>doga</span>                     <span>doga</span></div>
+  <div class="heart-line"><span>doga</span>                 <span>doga</span></div>
+  <div class="heart-line"><span>doga</span>             <span>doga</span></div>
+  <div class="heart-line"><span>doga</span>         <span>doga</span></div>
+  <div class="heart-line"><span>doga</span>     <span>doga</span></div>
+  <div class="heart-line"><span>doga</span> <span>doga</span></div>
+  <div class="heart-line"><span>doga</span></div>
+</div>
 
 <script>
 let player_hp = 100;
 let enemy_hp = 100;
 
 function updateHP() {
-  document.getElementById("hp").innerText =
-    `Your HP: ${player_hp} | Enemy HP: ${enemy_hp}`;
+  document.getElementById("hp").innerText = `Your HP: ${player_hp} | Enemy HP: ${enemy_hp}`;
 }
 
 function attack() {
   if (player_hp <= 0 || enemy_hp <= 0) return;
 
-  let damage = Math.floor(Math.random() * 11) + 10; // 10–20
-  let enemy_damage = Math.floor(Math.random() * 11) + 5; // 5–15
+  let damage = Math.floor(Math.random() * 11) + 10; // 10-20
+  let enemy_damage = Math.floor(Math.random() * 11) + 5; //5-15
 
   enemy_hp -= damage;
   player_hp -= enemy_damage;
 
-  document.getElementById("log").innerText =
-    `You dealt ${damage} damage\nEnemy dealt ${enemy_damage} damage`;
+  document.getElementById("log").innerText = `You dealt ${damage} damage\nEnemy dealt ${enemy_damage} damage`;
 
   if (player_hp <= 0) {
     document.getElementById("log").innerText += "\n\n💀 YOU LOST";
   } else if (enemy_hp <= 0) {
     document.getElementById("log").innerText += "\n\n🏆 YOU WIN!";
 
-    // Kalp ASCII'si (simetrik)
+    // Kalp göster ve animasyon başlat
     const heart = document.getElementById('heart');
-    heart.innerText = `
-   doga   doga   doga   doga   doga
-  doga doga doga doga doga doga doga
- doga                           doga
-doga                             doga
-doga                             doga
-  doga                         doga
-    doga                     doga
-      doga                 doga
-        doga             doga
-          doga         doga
-            doga     doga
-              doga doga
-                doga
-`;
     heart.style.display = 'block';
 
-    // Kalp atan animasyon
     setInterval(() => {
       heart.style.transform = 'scale(1.1)';
       setTimeout(() => heart.style.transform = 'scale(1)', 300);
