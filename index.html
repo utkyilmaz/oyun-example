@@ -21,6 +21,29 @@
       margin-top: 20px;
       white-space: pre-line;
     }
+
+    /* Kalp ve animasyon stili */
+    #heart {
+      font-size: 100px;
+      color: pink;
+      opacity: 0;
+      transition: opacity 1s ease-in-out, transform 0.5s ease-in-out;
+      margin-top: 20px;
+      position: relative;
+    }
+    #heart.show {
+      opacity: 1;
+      transform: scale(1.2);
+    }
+    #heart span {
+      position: absolute;
+      top: 35%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 30px;
+      font-weight: bold;
+      color: white;
+    }
   </style>
 </head>
 <body>
@@ -33,6 +56,9 @@
 
 <h2 id="hp"></h2>
 <div class="log" id="log"></div>
+
+<!-- Kalp burada -->
+<div id="heart"><span>doga</span>❤</div>
 
 <script>
   let player_hp = 100;
@@ -59,6 +85,16 @@
       document.getElementById("log").innerText += "\n\n💀 YOU LOST";
     } else if (enemy_hp <= 0) {
       document.getElementById("log").innerText += "\n\n🏆 YOU WIN!";
+
+      // Kalbi göster ve animasyon başlat
+      const heart = document.getElementById('heart');
+      heart.classList.add('show');
+
+      // Kalp atan animasyon
+      setInterval(() => {
+        heart.style.transform = 'scale(1.3)';
+        setTimeout(() => heart.style.transform = 'scale(1.2)', 300);
+      }, 600);
     }
 
     updateHP();
