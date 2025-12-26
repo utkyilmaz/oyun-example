@@ -1,86 +1,76 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>Game + Heart</title>
-<style>
-body {
-  background: black;
-  color: pink;
-  font-family: monospace;
-  text-align: center;
-  white-space: pre;
-}
-#heart {
-  color: pink;
-  display: none;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Oyun Example</title>
+  <style>
+    body {
+      background: #111;
+      color: white;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 40px;
+    }
+    button {
+      padding: 12px 25px;
+      margin: 10px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    .log {
+      margin-top: 20px;
+      white-space: pre-line;
+    }
+  </style>
 </head>
-
 <body>
 
-<div id="game"></div>
-<div id="heart">
-   doga   doga       doga   doga
- doga       doga   doga       doga
-doga                           doga
-doga                           doga
- doga                         doga
-   doga                     doga
-     doga                 doga
-       doga             doga
-         doga         doga
-           doga     doga
-             doga doga
-               doga
-</div>
+<h1>🎮 My First Game</h1>
+<p>Choose your action</p>
+
+<button onclick="attack()">Attack</button>
+<button onclick="run()">Run</button>
+
+<h2 id="hp"></h2>
+<div class="log" id="log"></div>
 
 <script>
-let player_hp = 100;
-let enemy_hp = 100;
-let output = "";
+  let player_hp = 100;
+  let enemy_hp = 100;
 
-output += "hi guest welcome to my first game example..\n";
-output += "i hope you'll enjoy..\n";
-output += "there are 2 choices..\n";
-output += "1-Attack\n";
-output += "2-Run\n\n";
+  function updateHP() {
+    document.getElementById("hp").innerText =
+      `Your HP: ${player_hp} | Enemy HP: ${enemy_hp}`;
+  }
 
-while (player_hp > 0 && enemy_hp > 0) {
-  let choice = prompt(
-    output +
-    "Your HP: " + player_hp +
-    "\nEnemy HP: " + enemy_hp +
-    "\n\n1 = Attack\n2 = Run"
-  );
+  function attack() {
+    if (player_hp <= 0 || enemy_hp <= 0) return;
 
-  if (choice === null) break;
-
-  if (choice == "1") {
-    let damage = Math.floor(Math.random() * 11) + 10;
-    let enemy_damage = Math.floor(Math.random() * 11) + 5;
+    let damage = Math.floor(Math.random() * 11) + 10; // 10–20
+    let enemy_damage = Math.floor(Math.random() * 11) + 5; // 5–15
 
     enemy_hp -= damage;
     player_hp -= enemy_damage;
 
-    output += `you dealt ${damage} damage\n`;
-    output += `enemy dealt to you ${enemy_damage} damage\n\n`;
-  }
-  else if (choice == "2") {
-    output += "you ran away..\n";
-    break;
-  }
-  else {
-    alert("you have to choose between 1 and 2");
-  }
-}
+    document.getElementById("log").innerText =
+      `You dealt ${damage} damage\nEnemy dealt ${enemy_damage} damage`;
 
-output += "--------------------\nGAME OVER\n--------------------\n";
-document.getElementById("game").innerText = output;
+    if (player_hp <= 0) {
+      document.getElementById("log").innerText += "\n\n💀 YOU LOST";
+    } else if (enemy_hp <= 0) {
+      document.getElementById("log").innerText += "\n\n🏆 YOU WIN!";
+    }
 
-// oyun bitince kalp gelsin
-document.getElementById("heart").style.display = "block";
+    updateHP();
+  }
+
+  function run() {
+    document.getElementById("log").innerText = "🏃 You ran away... Game Over";
+    player_hp = 0;
+    updateHP();
+  }
+
+  updateHP();
 </script>
 
 </body>
