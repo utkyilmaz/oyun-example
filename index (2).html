@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>Game + Heart</title>
+<style>
+body {
+  background: black;
+  color: pink;
+  font-family: monospace;
+  text-align: center;
+  white-space: pre;
+}
+#heart {
+  color: pink;
+  display: none;
+}
+</style>
+</head>
+
+<body>
+
+<div id="game"></div>
+<div id="heart">
+   doga   doga       doga   doga
+ doga       doga   doga       doga
+doga                           doga
+doga                           doga
+ doga                         doga
+   doga                     doga
+     doga                 doga
+       doga             doga
+         doga         doga
+           doga     doga
+             doga doga
+               doga
+</div>
+
+<script>
+let player_hp = 100;
+let enemy_hp = 100;
+let output = "";
+
+output += "hi guest welcome to my first game example..\n";
+output += "i hope you'll enjoy..\n";
+output += "there are 2 choices..\n";
+output += "1-Attack\n";
+output += "2-Run\n\n";
+
+while (player_hp > 0 && enemy_hp > 0) {
+  let choice = prompt(
+    output +
+    "Your HP: " + player_hp +
+    "\nEnemy HP: " + enemy_hp +
+    "\n\n1 = Attack\n2 = Run"
+  );
+
+  if (choice === null) break;
+
+  if (choice == "1") {
+    let damage = Math.floor(Math.random() * 11) + 10;
+    let enemy_damage = Math.floor(Math.random() * 11) + 5;
+
+    enemy_hp -= damage;
+    player_hp -= enemy_damage;
+
+    output += `you dealt ${damage} damage\n`;
+    output += `enemy dealt to you ${enemy_damage} damage\n\n`;
+  }
+  else if (choice == "2") {
+    output += "you ran away..\n";
+    break;
+  }
+  else {
+    alert("you have to choose between 1 and 2");
+  }
+}
+
+output += "--------------------\nGAME OVER\n--------------------\n";
+document.getElementById("game").innerText = output;
+
+// oyun bitince kalp gelsin
+document.getElementById("heart").style.display = "block";
+</script>
+
+</body>
+</html>
