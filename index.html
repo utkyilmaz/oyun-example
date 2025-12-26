@@ -7,36 +7,57 @@
   body {
     background: #111;
     color: white;
-    font-family: monospace;
+    font-family: Arial, sans-serif;
     text-align: center;
-    padding-top: 20px;
+    padding-top: 50px;
   }
   button {
-    padding: 10px 20px;
+    padding: 12px 25px;
     margin: 10px;
     font-size: 18px;
     cursor: pointer;
   }
   .log {
     margin-top: 20px;
-    white-space: pre;
+    white-space: pre-line;
   }
+
+  /* Kalp stili */
   #heart {
     display: none;
-    margin-top: 20px;
-    color: pink;
+    width: 150px;
+    height: 150px;
+    background: pink;
+    position: relative;
+    margin: 40px auto 0;
+    transform: rotate(-45deg);
+    animation: beat 1s infinite;
+  }
+  #heart::before,
+  #heart::after {
+    content: "";
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    background: pink;
+    border-radius: 50%;
+  }
+  #heart::before { top: -75px; left: 0; }
+  #heart::after { left: 75px; top: 0; }
+
+  #heart span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: rotate(45deg) translate(-50%, -50%);
     font-weight: bold;
-    line-height: 1.1;
-    font-size: 16px;
+    color: white;
+    font-size: 24px;
   }
-  .heart-line {
-    display: flex;
-    justify-content: center;
-  }
-  .heart-line span {
-    display: inline-block;
-    width: 40px; /* her “doga” için sabit genişlik */
-    text-align: center;
+
+  @keyframes beat {
+    0%, 100% { transform: rotate(-45deg) scale(1); }
+    50% { transform: rotate(-45deg) scale(1.2); }
   }
 </style>
 </head>
@@ -51,24 +72,8 @@
 <h2 id="hp"></h2>
 <div class="log" id="log"></div>
 
-<!-- Kalp divleri -->
-<div id="heart">
-  <div class="heart-line"><span>doga</span><span>doga</span><span>doga</span><span>doga</span><span>doga</span></div>
-  <div class="heart-line"><span>doga</span><span>doga</span><span>doga</span><span>doga</span><span>doga</span><span>doga</span><span>doga</span></div>
-  <div class="heart-line"><span>doga</span>                                         <span>doga</span></div>
-  <div class="heart-line"><span>doga</span>                                         <span>doga</span></div>
-  <div class="heart-line"><span>doga</span>                                     <span>doga</span></div>
-  <div class="heart-line"><span>doga</span>                                 <span>doga</span></div>
-  <div class="heart-line"><span>doga</span>                             <span>doga</span></div>
-  <div class="heart-line"><span>doga</span>                         <span>doga</span></div>
-  <div class="heart-line"><span>doga</span>                     <span>doga</span></div>
-  <div class="heart-line"><span>doga</span>                 <span>doga</span></div>
-  <div class="heart-line"><span>doga</span>             <span>doga</span></div>
-  <div class="heart-line"><span>doga</span>         <span>doga</span></div>
-  <div class="heart-line"><span>doga</span>     <span>doga</span></div>
-  <div class="heart-line"><span>doga</span> <span>doga</span></div>
-  <div class="heart-line"><span>doga</span></div>
-</div>
+<!-- Kalp -->
+<div id="heart"><span>doga</span></div>
 
 <script>
 let player_hp = 100;
@@ -81,8 +86,8 @@ function updateHP() {
 function attack() {
   if (player_hp <= 0 || enemy_hp <= 0) return;
 
-  let damage = Math.floor(Math.random() * 11) + 10; // 10-20
-  let enemy_damage = Math.floor(Math.random() * 11) + 5; //5-15
+  let damage = Math.floor(Math.random() * 11) + 10;
+  let enemy_damage = Math.floor(Math.random() * 11) + 5;
 
   enemy_hp -= damage;
   player_hp -= enemy_damage;
@@ -93,15 +98,8 @@ function attack() {
     document.getElementById("log").innerText += "\n\n💀 YOU LOST";
   } else if (enemy_hp <= 0) {
     document.getElementById("log").innerText += "\n\n🏆 YOU WIN!";
-
-    // Kalp göster ve animasyon başlat
     const heart = document.getElementById('heart');
     heart.style.display = 'block';
-
-    setInterval(() => {
-      heart.style.transform = 'scale(1.1)';
-      setTimeout(() => heart.style.transform = 'scale(1)', 300);
-    }, 600);
   }
 
   updateHP();
